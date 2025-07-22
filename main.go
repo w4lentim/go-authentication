@@ -51,7 +51,7 @@ func register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	hashedPassword := hashPassword(password)
+	hashedPassword, _ := hashPassword(password)
 	users[username] = Login{HashedPassword: hashedPassword}
 	fmt.Fprintf(w, "User %s registered successfully", username)
 }
