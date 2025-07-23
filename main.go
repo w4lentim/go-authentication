@@ -3,13 +3,12 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"time"
 )
 
 type Login struct {
 	HashedPassword string
-	SessionToken	string
-	CSRFToken		string
+	SessionToken   string
+	CSRFToken      string
 }
 
 var users = map[string]Login{}
@@ -22,7 +21,7 @@ func main() {
 	http.ListenAndServe(":8080", nil)
 }
 
-# This function checks if the password meets the security requirements
+// This function checks if the password meets the security requirements
 func isValidPassword(password string) bool {
 	if len(password) < 8 {
 		return false
@@ -63,14 +62,14 @@ func register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(username) < 8 {
-        http.Error(w, "Username must be at least 8 characters", http.StatusBadRequest)
-        return
-    }
+		http.Error(w, "Username must be at least 8 characters", http.StatusBadRequest)
+		return
+	}
 
 	if !isValidPassword(password) {
-        http.Error(w, "Password must be at least 8 characters, contain upper and lower case letters, a number, and a symbol", http.StatusBadRequest)
-        return
-    }
+		http.Error(w, "Password must be at least 8 characters, contain upper and lower case letters, a number, and a symbol", http.StatusBadRequest)
+		return
+	}
 
 	if _, exists := users[username]; exists {
 		http.Error(w, "User already exists", http.StatusConflict)
