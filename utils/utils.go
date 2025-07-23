@@ -1,6 +1,10 @@
 package utils
 
 import (
+	"crypto/rand"
+	"encoding/base64"
+	"log"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -36,4 +40,20 @@ func IsValidPassword(password string) bool {
 	}
 
 	return hasUpper && hasLower && hasNumber && hasSymbol
+}
+
+// CheckPasswordHash compares a password with a hashed password
+func CheckPasswordHash(password, hashedPassword string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+	return err == nil
+}
+
+// GenerateToken generates a secure random token
+func GenerateToken() string {
+	token := make([]byte, 32) // 32 bytes = 256 bits
+	_, err := rand.Read(token)
+	if err != nil {
+		log.Fatal("Failed to generate token:", err)
+	}
+	return base64.URLEncoding.EncodeToString(token)
 }
