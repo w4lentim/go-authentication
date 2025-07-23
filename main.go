@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/w4lentim/go-authentication/utils"
 )
 
 type Login struct {
@@ -76,7 +78,7 @@ func register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	hashedPassword, _ := hashPassword(password)
+	hashedPassword, _ := utils.HashPassword(password)
 	users[username] = Login{HashedPassword: hashedPassword}
 	fmt.Fprintf(w, "User %s registered successfully", username)
 }
